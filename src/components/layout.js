@@ -15,13 +15,25 @@ const Layout = ({ children }) => (
       styles={css`
         html {
           box-sizing: border-box;
-          font-family: sans-serif;
+          font-family: "Permanent Marker", cursive;
           overflow-y: scroll;
           -ms-text-size-adjust: 100%;
           -webkit-text-size-adjust: 100%;
         }
         body {
+          background-image: linear-gradient(
+            to top,
+            #e68eb7 0%,
+            #e68eb7 24%,
+            #ea84b3 30%,
+            #e7627d 46%,
+            #b8235a 59%,
+            #801357 71%,
+            #3d1635 84%,
+            #1c1a27 100%
+          );
           margin: 0;
+          min-height: 100vh;
           -webkit-font-smoothing: antialiased;
           -moz-osx-font-smoothing: grayscale;
         }
@@ -203,6 +215,7 @@ const Layout = ({ children }) => (
         }
         * {
           box-sizing: inherit;
+          font-weight: normal;
         }
         *:before {
           box-sizing: inherit;

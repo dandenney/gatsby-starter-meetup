@@ -21,14 +21,14 @@ const Image = () => (
           relativePath: { eq: "timothy-eberly-515850-unsplash.jpg" }
         ) {
           childImageSharp {
-            fluid(maxWidth: 300) {
-              ...GatsbyImageSharpFluid
+            fixed(width: 320) {
+              ...GatsbyImageSharpFixed
             }
           }
         }
       }
     `}
-    render={data => <Img fluid={data.placeholderImage.childImageSharp.fluid} />}
+    render={data => <Img fixed={data.placeholderImage.childImageSharp.fixed} />}
   />
 )
 export default Image

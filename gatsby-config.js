@@ -1,7 +1,7 @@
 module.exports = {
   siteMetadata: {
     title: `Unhandled Rejection`,
-    description: `Announcing our first EP: Don't you 404 me`,
+    description: `Announcing our self-titled EP`,
     author: `@unhandledrejection`,
   },
   plugins: [
@@ -40,6 +40,16 @@ module.exports = {
       resolve: `gatsby-mdx`,
       options: {
         extensions: [`.mdx`, `.md`],
+      },
+    },
+    {
+      resolve: `gatsby-plugin-prefetch-google-fonts`,
+      options: {
+        fonts: [
+          {
+            family: `Permanent Marker`,
+          },
+        ],
       },
     },
     // this (optional) plugin enables Progressive Web App + Offline functionality

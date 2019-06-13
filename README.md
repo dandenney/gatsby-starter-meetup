@@ -95,3 +95,397 @@ Looking for more guidance? Full documentation for Gatsby lives [on the website](
 [![Deploy to Netlify](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/gatsbyjs/gatsby-starter-default)
 
 <!-- AUTO-GENERATED-CONTENT:END -->
+
+# A Personal Site with Gatsby and Netlify
+
+## Links
+
+[GatsbyJS](https://www.gatsbyjs.org/)
+[Netlify: All-in-one platform for automating modern web projects.](https://www.netlify.com/)
+[Gatsby default starter site](https://templates.netlify.com/template/gatsby-starter-dafault/)
+[emotion](https://emotion.sh/docs/introduction)
+[Styled System](https://styled-system.com/)
+[GitHub - dandenney/gatsby-starter-meetup](https://github.com/dandenney/gatsby-starter-meetup)
+
+## Prerequisites
+
+- Netlify account
+- GitHub or other account (Bitbucket GitLab)
+
+## Steps
+
+### Setup
+
+- Deploy to Netlify [Gatsby default starter site](https://templates.netlify.com/template/gatsby-starter-dafault/)
+- Clone locally, `npm install`
+
+### step-one-personalization
+
+- Pull
+- Personalize the default content
+
+```
+Unhandled Rejection
+Announcing our first EP: Don't you 404 me
+
+Tracks
+* no-useless-escape
+* ’success’ is not defined
+* sentMessage
+* bad request
+* PromiseRejectionEvent
+* failed to process
+```
+
+    * Add a query and output
+
+```
+export const siteQuery = graphql`
+  {
+    allSite {
+      nodes {
+        siteMetadata {
+          title
+          description
+          author
+        }
+      }
+    }
+  }
+`
+```
+
+- Remove the unused files
+
+### step-two-add-a-blog
+
+- Use absolute imports `gatsby-node-js`
+- [gatsby/add-custom-webpack-config.md at master · gatsbyjs/gatsby · GitHub](https://github.com/gatsbyjs/gatsby/blob/master/docs/docs/add-custom-webpack-config.md)
+
+```
+const path = require('path');
+exports.onCreateWebpackConfig = ({ stage, actions }) => {
+	actions.setWebpackConfig({
+	  resolve: {
+	    modules: [path.resolve(__dirname, 'src'), 'node_modules'],
+	  },
+	});
+};
+```
+
+- Git gud with MDX
+  _ https://www.gatsbyjs.org/packages/gatsby-mdx/#installation
+  _ `gatsby-config.js`
+
+```
+{
+      resolve: `gatsby-source-filesystem`,
+      options: {
+        name: `images`,
+        path: `${__dirname}/src/images`,
+      },
+    },
+    {
+      resolve: `gatsby-mdx`,
+      options: {
+        extensions: [`.mdx`, `.md`],
+      },
+    },
+    {
+      resolve: `gatsby-source-filesystem`,
+      options: {
+        name: `blog`,
+        path: `${__dirname}/src/pages/blog`,
+      },
+    },
+```
+
+```
+export const query = graphql`
+  {
+    allMdx {
+      edges {
+        node {
+          frontmatter {
+            title
+          }
+        }
+      }
+    }
+  }
+`
+```
+
+```
+{data.allMdx.edges.map(({ node }) => {
+  return <h2>{node.title}</h2>
+})}
+
+```
+
+### step-three-add-a-cms
+
+[Sourcing from Netlify CMS | GatsbyJS](https://www.gatsbyjs.org/docs/sourcing-from-netlify-cms/)
+
+`npm install —save netlify-cms-app gatsby-plugin-netlify-cms`
+`gatsby-plugin-netlify-cms`
+
+```
+backend:
+  name: test-repo
+
+media_folder: static/assets
+public_folder: assets
+
+collections:
+  - name: blog
+    label: Blog
+    folder: blog
+    create: true
+    fields:
+      - { name: path, label: Path }
+      - { name: date, label: Date, widget: date }
+      - { name: title, label: Title }
+      - { name: body, label: Body, widget: markdown }
+```
+
+http://localhost:8000/admin/
+
+```
+backend:
+  name: github
+  repo: dandenney/your-repo-name
+```
+
+### step-four-adding-emotion
+
+[Emotion | GatsbyJS](https://www.gatsbyjs.org/docs/emotion/#adding-global-styles-in-gatsby-with-emotion)
+`npm install —save gatsby-plugin-emotion @emotion/core @emotion/styled`
+`gatsby-plugin-emotion`
+
+```
+import { Global, css } from "@emotion/core"
+<Global
+	styles={css`
+	div {
+	  background: red;
+	  color: white;
+	}
+	`}
+/>
+```
+
+- Copy the good bits from normalize over
+
+```
+html {
+  box-sizing: border-box;
+  font-family: sans-serif;
+  overflow-y: scroll;
+  -ms-text-size-adjust: 100%;
+  -webkit-text-size-adjust: 100%;
+}
+body {
+  margin: 0;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+article,
+aside,
+details,
+figcaption,
+figure,
+footer,
+header,
+main,
+menu,
+nav,
+section,
+summary {
+  display: block;
+}
+audio,
+canvas,
+progress,
+video {
+  display: inline-block;
+}
+audio:not([controls]) {
+  display: none;
+  height: 0;
+}
+progress {
+  vertical-align: baseline;
+}
+[hidden],
+template {
+  display: none;
+}
+a {
+  background-color: transparent;
+  -webkit-text-decoration-skip: objects;
+}
+a:active,
+a:hover {
+  outline-width: 0;
+}
+abbr[title] {
+  border-bottom: none;
+  text-decoration: underline;
+  text-decoration: underline dotted;
+}
+b,
+strong {
+  font-weight: inherit;
+  font-weight: bolder;
+}
+dfn {
+  font-style: italic;
+}
+h1 {
+  font-size: 2em;
+  margin: 0.67em 0;
+}
+mark {
+  background-color: #ff0;
+  color: #000;
+}
+small {
+  font-size: 80%;
+}
+sub,
+sup {
+  font-size: 75%;
+  line-height: 0;
+  position: relative;
+  vertical-align: baseline;
+}
+sub {
+  bottom: -0.25em;
+}
+sup {
+  top: -0.5em;
+}
+img {
+  border-style: none;
+}
+svg:not(:root) {
+  overflow: hidden;
+}
+code,
+kbd,
+pre,
+samp {
+  font-family: monospace, monospace;
+  font-size: 1em;
+}
+figure {
+  margin: 1em 40px;
+}
+hr {
+  box-sizing: content-box;
+  height: 0;
+  overflow: visible;
+}
+button,
+input,
+optgroup,
+select,
+textarea {
+  font: inherit;
+  margin: 0;
+}
+optgroup {
+  font-weight: 700;
+}
+button,
+input {
+  overflow: visible;
+}
+button,
+select {
+  text-transform: none;
+}
+[type="reset"],
+[type="submit"],
+button,
+html [type="button"] {
+  -webkit-appearance: button;
+}
+[type="button"]::-moz-focus-inner,
+[type="reset"]::-moz-focus-inner,
+[type="submit"]::-moz-focus-inner,
+button::-moz-focus-inner {
+  border-style: none;
+  padding: 0;
+}
+[type="button"]:-moz-focusring,
+[type="reset"]:-moz-focusring,
+[type="submit"]:-moz-focusring,
+button:-moz-focusring {
+  outline: 1px dotted ButtonText;
+}
+fieldset {
+  border: 1px solid silver;
+  margin: 0 2px;
+  padding: 0.35em 0.625em 0.75em;
+}
+legend {
+  box-sizing: border-box;
+  color: inherit;
+  display: table;
+  max-width: 100%;
+  padding: 0;
+  white-space: normal;
+}
+textarea {
+  overflow: auto;
+}
+[type="checkbox"],
+[type="radio"] {
+  box-sizing: border-box;
+  padding: 0;
+}
+[type="number"]::-webkit-inner-spin-button,
+[type="number"]::-webkit-outer-spin-button {
+  height: auto;
+}
+[type="search"] {
+  -webkit-appearance: textfield;
+  outline-offset: -2px;
+}
+[type="search"]::-webkit-search-cancel-button,
+[type="search"]::-webkit-search-decoration {
+  -webkit-appearance: none;
+}
+::-webkit-input-placeholder {
+  color: inherit;
+  opacity: 0.54;
+}
+::-webkit-file-upload-button {
+  -webkit-appearance: button;
+  font: inherit;
+}
+* {
+  box-sizing: inherit;
+}
+*:before {
+  box-sizing: inherit;
+}
+*:after {
+  box-sizing: inherit;
+}
+
+```
+
+### step-five-customizing-styles
+
+Example
+
+```
+import styled from "@emotion/styled"
+
+export const Grid = styled.section`
+  background: pink;
+`
+```

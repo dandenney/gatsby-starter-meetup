@@ -8,8 +8,6 @@
 import React from "react"
 import PropTypes from "prop-types"
 
-import "./layout.css"
-
 const PostsLayout = ({ children }) => (
   <main>
     <article>{children}</article>
